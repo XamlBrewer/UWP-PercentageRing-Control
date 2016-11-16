@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.UI;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
@@ -18,8 +10,7 @@ using Windows.UI.Xaml.Shapes;
 namespace XamlBrewer.Uwp.Controls
 {
     /// <summary>
-    /// A Modern UI Percentage Ring using XAML and Composition API.
-    /// The scale of the gauge is a clockwise arc that sweeps from MinAngle (default lower left, at -150°) to MaxAngle (default lower right, at +150°).
+    /// A Percentage Ring Control.
     /// </summary>
     //// All calculations are for a 200x200 square. The viewbox will do the rest.
     [TemplatePart(Name = ContainerPartName, Type = typeof(Grid))]
@@ -78,13 +69,13 @@ namespace XamlBrewer.Uwp.Controls
         /// Identifies the MinAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MinAngleProperty =
-            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(0, OnScaleChanged));
+            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(-180, OnScaleChanged));
 
         /// <summary>
         /// Identifies the MaxAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MaxAngleProperty =
-            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(360, OnScaleChanged));
+            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(180, OnScaleChanged));
 
         /// <summary>
         /// Identifies the ValueAngle dependency property.
@@ -106,7 +97,6 @@ namespace XamlBrewer.Uwp.Controls
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PercentageRing"/> class.
-        /// Create a default radial gauge control.
         /// </summary>
         public PercentageRing()
         {
@@ -132,7 +122,7 @@ namespace XamlBrewer.Uwp.Controls
         }
 
         /// <summary>
-        /// Gets or sets the width of the scale, in percentage of the gauge radius.
+        /// Gets or sets the width of the scale, in percentage of the radius.
         /// </summary>
         public double ScaleWidth
         {
@@ -229,10 +219,10 @@ namespace XamlBrewer.Uwp.Controls
 
         private static void OnValueChanged(DependencyObject d)
         {
-            PercentageRing percentageRing = (PercentageRing)d;
+            var percentageRing = (PercentageRing)d;
             if (!double.IsNaN(percentageRing.Value))
             {
-                if (percentageRing.StepSize != 0)
+                if (percentageRing.StepSize > 0)
                 {
                     percentageRing.Value = percentageRing.RoundToMultiple(percentageRing.Value, percentageRing.StepSize);
                 }
@@ -252,9 +242,12 @@ namespace XamlBrewer.Uwp.Controls
                         if (percentageRing.ValueAngle - percentageRing.MinAngle == 360)
                         {
                             // Draw full circle.
-                            var eg = new EllipseGeometry();
-                            eg.Center = new Point(100, 100);
-                            eg.RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth / 2);
+                            var eg = new EllipseGeometry
+                            {
+                                Center = new Point(100, 100),
+                                RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth / 2)
+                            };
+
                             eg.RadiusY = eg.RadiusX;
                             trail.Data = eg;
                         }
@@ -262,14 +255,23 @@ namespace XamlBrewer.Uwp.Controls
                         {
                             // Draw arc.
                             var pg = new PathGeometry();
-                            var pf = new PathFigure();
-                            pf.IsClosed = false;
-                            pf.StartPoint = percentageRing.ScalePoint(percentageRing.MinAngle, middleOfScale);
-                            var seg = new ArcSegment();
-                            seg.SweepDirection = SweepDirection.Clockwise;
-                            seg.IsLargeArc = percentageRing.ValueAngle > (180 + percentageRing.MinAngle);
-                            seg.Size = new Size(middleOfScale, middleOfScale);
-                            seg.Point = percentageRing.ScalePoint(Math.Min(percentageRing.ValueAngle, percentageRing.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                            var pf = new PathFigure
+                            {
+                                IsClosed = false,
+                                StartPoint = percentageRing.ScalePoint(percentageRing.MinAngle, middleOfScale)
+                            };
+
+                            var seg = new ArcSegment
+                            {
+                                SweepDirection = SweepDirection.Clockwise,
+                                IsLargeArc = percentageRing.ValueAngle > (180 + percentageRing.MinAngle),
+                                Size = new Size(middleOfScale, middleOfScale),
+                                Point =
+                                    percentageRing.ScalePoint(
+                                        Math.Min(percentageRing.ValueAngle, percentageRing.MaxAngle), middleOfScale)
+                            };
+
+                            // On overflow, stop trail at MaxAngle.
                             pf.Segments.Add(seg);
                             pg.Figures.Add(pf);
                             trail.Data = pg;
@@ -291,7 +293,7 @@ namespace XamlBrewer.Uwp.Controls
 
         private static void OnInteractivityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            PercentageRing percentageRing = (PercentageRing)d;
+            var percentageRing = (PercentageRing)d;
 
             if (percentageRing.IsInteractive)
             {
@@ -322,9 +324,12 @@ namespace XamlBrewer.Uwp.Controls
                 if (percentageRing.MaxAngle - percentageRing.MinAngle == 360)
                 {
                     // Draw full circle.
-                    var eg = new EllipseGeometry();
-                    eg.Center = new Point(100, 100);
-                    eg.RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth / 2);
+                    var eg = new EllipseGeometry
+                    {
+                        Center = new Point(100, 100),
+                        RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth/2)
+                    };
+
                     eg.RadiusY = eg.RadiusX;
                     scale.Data = eg;
                 }
@@ -332,33 +337,37 @@ namespace XamlBrewer.Uwp.Controls
                 {
                     // Draw arc.
                     var pg = new PathGeometry();
-                    var pf = new PathFigure();
-                    pf.IsClosed = false;
+                    var pf = new PathFigure { IsClosed = false };
                     var middleOfScale = 100 - ScalePadding - (percentageRing.ScaleWidth / 2);
                     pf.StartPoint = percentageRing.ScalePoint(percentageRing.MinAngle, middleOfScale);
-                    var seg = new ArcSegment();
-                    seg.SweepDirection = SweepDirection.Clockwise;
-                    seg.IsLargeArc = percentageRing.MaxAngle > (percentageRing.MinAngle + 180);
-                    seg.Size = new Size(middleOfScale, middleOfScale);
-                    seg.Point = percentageRing.ScalePoint(percentageRing.MaxAngle, middleOfScale);
+                    var seg = new ArcSegment
+                    {
+                        SweepDirection = SweepDirection.Clockwise,
+                        IsLargeArc = percentageRing.MaxAngle > (percentageRing.MinAngle + 180),
+                        Size = new Size(middleOfScale, middleOfScale),
+                        Point = percentageRing.ScalePoint(percentageRing.MaxAngle, middleOfScale)
+                    };
+
                     pf.Segments.Add(seg);
                     pg.Figures.Add(pf);
                     scale.Data = pg;
                 }
             }
+
+            OnValueChanged(percentageRing);
         }
 
         private void PercentageRing_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            SetGaugeValueFromPoint(e.Position);
+            SetValueFromPoint(e.Position);
         }
 
         private void PercentageRing_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            SetGaugeValueFromPoint(e.GetPosition(this));
+            SetValueFromPoint(e.GetPosition(this));
         }
 
-        private void SetGaugeValueFromPoint(Point p)
+        private void SetValueFromPoint(Point p)
         {
             var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
 

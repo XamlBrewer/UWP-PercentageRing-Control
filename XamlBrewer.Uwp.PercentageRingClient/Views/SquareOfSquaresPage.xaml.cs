@@ -19,15 +19,15 @@ namespace XamlBrewer.Uwp.PercentageRingClient
             var random = new Random((int)DateTime.Now.Ticks);
             foreach (var square in SquareOfSquares.Squares)
             {
-                square.Content = new PercentageRing()
+               square.Content = new PercentageRing()
                 {
                     Height = square.ActualHeight,
                     Width = square.ActualWidth,
                     ScaleBrush = new SolidColorBrush(square.RandomColor()),
                     TrailBrush = new SolidColorBrush(square.RandomColor()),
-                    Value = random.Next(100),
-                    ValueBrush = new SolidColorBrush(Colors.Blue),
-                    IsInteractive = true
+                    ValueBrush = new SolidColorBrush(Colors.White),
+                    IsInteractive = true,
+                    Value = random.Next(100)
                 };
             }
         }
