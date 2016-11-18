@@ -33,7 +33,7 @@ namespace XamlBrewer.Uwp.Controls
         /// Identifies the ScaleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(PercentageRing), new PropertyMetadata(26.0, OnScaleChanged));
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(PercentageRing), new PropertyMetadata(25.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the Value dependency property.
@@ -57,13 +57,13 @@ namespace XamlBrewer.Uwp.Controls
         /// Identifies the ValueBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueBrushProperty =
-            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(PercentageRing), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(PercentageRing), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
         /// Identifies the ValueStringFormat dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueStringFormatProperty =
-            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(PercentageRing), new PropertyMetadata("N0"));
+            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(PercentageRing), new PropertyMetadata("0 \\%"));
 
         /// <summary>
         /// Identifies the MinAngle dependency property.
@@ -250,7 +250,6 @@ namespace XamlBrewer.Uwp.Controls
                 var trail = percentageRing.GetTemplateChild(TrailPartName) as Path;
                 if (trail != null)
                 {
-                    trail.StrokeDashCap = PenLineCap.Round;
                     if (percentageRing.ValueAngle > percentageRing.NormalizedMinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
@@ -338,7 +337,6 @@ namespace XamlBrewer.Uwp.Controls
             var scale = percentageRing.GetTemplateChild(ScalePartName) as Path;
             if (scale != null)
             {
-                scale.StrokeDashCap = PenLineCap.Round;
                 if (percentageRing.NormalizedMaxAngle - percentageRing.NormalizedMinAngle == 360)
                 {
                     // Draw full circle.
