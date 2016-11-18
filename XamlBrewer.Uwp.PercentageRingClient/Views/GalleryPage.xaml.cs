@@ -2,9 +2,9 @@
 
 namespace XamlBrewer.Uwp.PercentageRingClient
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class GalleryPage : Page
     {
-        public MainPage()
+        public GalleryPage()
         {
             this.InitializeComponent();
         }
