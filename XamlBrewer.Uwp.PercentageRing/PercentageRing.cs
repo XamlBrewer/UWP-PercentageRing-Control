@@ -12,7 +12,7 @@ namespace XamlBrewer.Uwp.Controls
     /// <summary>
     /// A Percentage Ring Control.
     /// </summary>
-    //// All calculations are for a 200x200 square. The viewbox will do the rest.
+    //// All calculations are for a 200x200 square. The ViewBox control will do the rest.
     [TemplatePart(Name = ContainerPartName, Type = typeof(Grid))]
     [TemplatePart(Name = ScalePartName, Type = typeof(Path))]
     [TemplatePart(Name = TrailPartName, Type = typeof(Path))]
@@ -69,13 +69,13 @@ namespace XamlBrewer.Uwp.Controls
         /// Identifies the MinAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MinAngleProperty =
-            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(-180, OnScaleChanged));
+            DependencyProperty.Register(nameof(MinAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the MaxAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty MaxAngleProperty =
-            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(180, OnScaleChanged));
+            DependencyProperty.Register(nameof(MaxAngle), typeof(int), typeof(PercentageRing), new PropertyMetadata(360, OnScaleChanged));
 
         /// <summary>
         /// Identifies the ValueAngle dependency property.
@@ -94,6 +94,9 @@ namespace XamlBrewer.Uwp.Controls
         private const double Minimum = 0;
         private const double Maximum = 100;
         private const double ScalePadding = 0;
+
+        private double _normalizedMinAngle;
+        private double _normalizedMaxAngle;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PercentageRing"/> class.
@@ -203,6 +206,18 @@ namespace XamlBrewer.Uwp.Controls
         }
 
         /// <summary>
+        /// Gets the normalized minimum angle.
+        /// </summary>
+        /// <value>The minimum angle in the range from -180 to 180.</value>
+        protected double NormalizedMinAngle => _normalizedMinAngle;
+
+        /// <summary>
+        /// Gets the normalized maximum angle.
+        /// </summary>
+        /// <value>The maximum angle in the range from 180 to 540.</value>
+        protected double NormalizedMaxAngle => _normalizedMaxAngle;
+
+        /// <summary>
         /// Update the visual state of the control when its template is changed.
         /// </summary>
         protected override void OnApplyTemplate()
@@ -235,11 +250,12 @@ namespace XamlBrewer.Uwp.Controls
                 var trail = percentageRing.GetTemplateChild(TrailPartName) as Path;
                 if (trail != null)
                 {
-                    if (percentageRing.ValueAngle > percentageRing.MinAngle)
+                    trail.StrokeDashCap = PenLineCap.Round;
+                    if (percentageRing.ValueAngle > percentageRing.NormalizedMinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
 
-                        if (percentageRing.ValueAngle - percentageRing.MinAngle == 360)
+                        if (percentageRing.ValueAngle - percentageRing.NormalizedMinAngle == 360)
                         {
                             // Draw full circle.
                             var eg = new EllipseGeometry
@@ -258,20 +274,19 @@ namespace XamlBrewer.Uwp.Controls
                             var pf = new PathFigure
                             {
                                 IsClosed = false,
-                                StartPoint = percentageRing.ScalePoint(percentageRing.MinAngle, middleOfScale)
+                                StartPoint = percentageRing.ScalePoint(percentageRing.NormalizedMinAngle, middleOfScale)
                             };
 
                             var seg = new ArcSegment
                             {
                                 SweepDirection = SweepDirection.Clockwise,
-                                IsLargeArc = percentageRing.ValueAngle > (180 + percentageRing.MinAngle),
+                                IsLargeArc = percentageRing.ValueAngle > (180 + percentageRing.NormalizedMinAngle),
                                 Size = new Size(middleOfScale, middleOfScale),
                                 Point =
                                     percentageRing.ScalePoint(
-                                        Math.Min(percentageRing.ValueAngle, percentageRing.MaxAngle), middleOfScale)
+                                        Math.Min(percentageRing.ValueAngle, percentageRing.NormalizedMaxAngle), middleOfScale)
                             };
 
-                            // On overflow, stop trail at MaxAngle.
                             pf.Segments.Add(seg);
                             pg.Figures.Add(pf);
                             trail.Data = pg;
@@ -316,18 +331,21 @@ namespace XamlBrewer.Uwp.Controls
 
         private static void OnScaleChanged(DependencyObject d)
         {
-            PercentageRing percentageRing = (PercentageRing)d;
+            var percentageRing = (PercentageRing)d;
+
+            percentageRing.UpdateNormalizedAngles();
 
             var scale = percentageRing.GetTemplateChild(ScalePartName) as Path;
             if (scale != null)
             {
-                if (percentageRing.MaxAngle - percentageRing.MinAngle == 360)
+                scale.StrokeDashCap = PenLineCap.Round;
+                if (percentageRing.NormalizedMaxAngle - percentageRing.NormalizedMinAngle == 360)
                 {
                     // Draw full circle.
                     var eg = new EllipseGeometry
                     {
                         Center = new Point(100, 100),
-                        RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth/2)
+                        RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth / 2)
                     };
 
                     eg.RadiusY = eg.RadiusX;
@@ -339,13 +357,13 @@ namespace XamlBrewer.Uwp.Controls
                     var pg = new PathGeometry();
                     var pf = new PathFigure { IsClosed = false };
                     var middleOfScale = 100 - ScalePadding - (percentageRing.ScaleWidth / 2);
-                    pf.StartPoint = percentageRing.ScalePoint(percentageRing.MinAngle, middleOfScale);
+                    pf.StartPoint = percentageRing.ScalePoint(percentageRing.NormalizedMinAngle, middleOfScale);
                     var seg = new ArcSegment
                     {
                         SweepDirection = SweepDirection.Clockwise,
-                        IsLargeArc = percentageRing.MaxAngle > (percentageRing.MinAngle + 180),
+                        IsLargeArc = percentageRing.NormalizedMaxAngle > (percentageRing.NormalizedMinAngle + 180),
                         Size = new Size(middleOfScale, middleOfScale),
-                        Point = percentageRing.ScalePoint(percentageRing.MaxAngle, middleOfScale)
+                        Point = percentageRing.ScalePoint(percentageRing.NormalizedMaxAngle, middleOfScale)
                     };
 
                     pf.Segments.Add(seg);
@@ -355,6 +373,32 @@ namespace XamlBrewer.Uwp.Controls
             }
 
             OnValueChanged(percentageRing);
+        }
+
+        private void UpdateNormalizedAngles()
+        {
+            var result = Mod(MinAngle, 360);
+
+            if (result >= 180)
+            {
+                result = result - 360;
+            }
+
+            _normalizedMinAngle = result;
+
+            result = Mod(MaxAngle, 360);
+
+            if (result < 180)
+            {
+                result = result + 360;
+            }
+
+            if (result > NormalizedMinAngle + 360)
+            {
+                result = result - 360;
+            }
+
+            _normalizedMaxAngle = result;
         }
 
         private void PercentageRing_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -371,8 +415,14 @@ namespace XamlBrewer.Uwp.Controls
         {
             var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
 
-            var angle = Math.Atan2(pt.X, pt.Y) * 180 / Math.PI;
-            var value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+            var angle = Math.Atan2(pt.X, pt.Y) / Degrees2Radians;
+            var divider = Mod(NormalizedMaxAngle - NormalizedMinAngle, 360);
+            if (divider == 0)
+            {
+                divider = 360;
+            }
+
+            var value = Minimum + ((Maximum - Minimum) * (Mod(angle - NormalizedMinAngle, 360)) / divider);
             if (value < Minimum || value > Maximum)
             {
                 // Ignore positions outside the scale angle.
@@ -392,21 +442,21 @@ namespace XamlBrewer.Uwp.Controls
             // Off-scale on the left.
             if (value < Minimum)
             {
-                return MinAngle - 7.5;
+                return MinAngle;
             }
 
             // Off-scale on the right.
             if (value > Maximum)
             {
-                return MaxAngle + 7.5;
+                return MaxAngle;
             }
 
-            return ((value - Minimum) / (Maximum - Minimum) * (MaxAngle - MinAngle)) + MinAngle;
+            return ((value - Minimum) / (Maximum - Minimum) * (NormalizedMaxAngle - NormalizedMinAngle)) + NormalizedMinAngle;
         }
 
         private double RoundToMultiple(double number, double multiple)
         {
-            double modulo = number % multiple;
+            var modulo = number % multiple;
             if ((multiple - modulo) <= modulo)
             {
                 modulo = multiple - modulo;
@@ -417,6 +467,13 @@ namespace XamlBrewer.Uwp.Controls
             }
 
             return number + modulo;
+        }
+
+        private static double Mod(double number, double divider)
+        {
+            var result = number % divider;
+            result = result < 0 ? result + divider : result;
+            return result;
         }
     }
 }

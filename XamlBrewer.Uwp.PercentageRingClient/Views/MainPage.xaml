@@ -25,13 +25,13 @@
                 Grid.Row="1" />
         <Slider x:Name="MinAngleSlider"
                 Header="Minimum Angle"
-                Minimum="-180"
+                Minimum="-360"
                 Maximum="360"
                 Margin="40 0"
                 Grid.Row="2" />
         <Slider x:Name="MaxAngleSlider"
                 Header="Maximum Angle"
-                Minimum="-180"
+                Minimum="-360"
                 Maximum="360"
                 Margin="40 0"
                 Grid.Row="3" />
