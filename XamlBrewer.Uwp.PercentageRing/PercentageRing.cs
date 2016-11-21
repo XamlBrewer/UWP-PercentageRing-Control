@@ -63,7 +63,7 @@ namespace XamlBrewer.Uwp.Controls
         /// Identifies the ValueStringFormat dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueStringFormatProperty =
-            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(PercentageRing), new PropertyMetadata("0 \\%"));
+            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(PercentageRing), new PropertyMetadata("0\\%"));
 
         /// <summary>
         /// Identifies the MinAngle dependency property.

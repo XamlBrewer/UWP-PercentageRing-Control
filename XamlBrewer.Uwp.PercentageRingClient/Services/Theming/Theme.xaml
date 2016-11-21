@@ -4,20 +4,20 @@
 
     <!-- Header -->
     <SolidColorBrush x:Key="TitlebarBackgroundBrush"
-                     Color="MediumSlateBlue" />
+                     Color="#226666" />
     <SolidColorBrush x:Key="StatusbarBackgroundBrush"
-                     Color="{ThemeResource SystemColorHighlightColor}" />
+                     Color="#226666" />
     <!-- Splitview Pane -->
     <SolidColorBrush x:Key="SplitViewBackgroundBrush"
-                     Color="Peru" />
+                     Color="#123552" />
     <SolidColorBrush x:Key="SplitViewForegroundBrush"
-                     Color="White" />
+                     Color="#718DA5" />
     <SolidColorBrush x:Key="SplitViewHighlightBrush"
                      Color="Gold" />
 
     <!-- Splitview Content -->
     <SolidColorBrush x:Key="PageBackgroundBrush"
-                     Color="Gainsboro" />
+                     Color="#D4A86A" />
     <SolidColorBrush x:Key="PageForegroundBrush"
-                     Color="#69969C" />
+                     Color="#805315" />
 </ResourceDictionary>

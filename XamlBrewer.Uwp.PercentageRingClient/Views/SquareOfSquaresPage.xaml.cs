@@ -26,6 +26,7 @@ namespace XamlBrewer.Uwp.PercentageRingClient
                     ScaleBrush = new SolidColorBrush(square.RandomColor()),
                     TrailBrush = new SolidColorBrush(square.RandomColor()),
                     ValueBrush = new SolidColorBrush(Colors.White),
+                    ScaleWidth = 10 + random.Next(50),
                     IsInteractive = true,
                     Value = random.Next(100)
                 };

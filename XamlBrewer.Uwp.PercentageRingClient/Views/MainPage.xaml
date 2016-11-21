@@ -17,6 +17,9 @@
                                  MinAngle="{Binding ElementName=MinAngleSlider, Path=Value, Mode=TwoWay}"
                                  MaxAngle="{Binding ElementName=MaxAngleSlider, Path=Value, Mode=TwoWay}"
                                  IsInteractive="True"
+                                 ScaleBrush="#FFDBAA"
+                                 TrailBrush="{StaticResource SplitViewBackgroundBrush}"
+                                 ValueBrush="{StaticResource SplitViewForegroundBrush}"
                                  Margin="40"
                                  Grid.Row="0" />
         <Slider x:Name="ValueSlider"
