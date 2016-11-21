@@ -6,6 +6,55 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style TargetType="controls:PercentageRing"
+               x:Key="Arrow">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:PercentageRing">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Viewbox>
+                                <Grid x:Name="PART_Container"
+                                      Height="200"
+                                      Width="200"
+                                      Background="Transparent">
+
+                                    <!-- Scale -->
+                                    <Path Name="PART_Scale"
+                                          Stroke="{TemplateBinding ScaleBrush}"
+                                          StrokeThickness="{TemplateBinding ScaleWidth}"
+                                          StrokeStartLineCap="Flat"
+                                          StrokeEndLineCap="Flat" />
+
+                                    <!-- Trail -->
+                                    <Path Name="PART_Trail"
+                                          Stroke="{TemplateBinding TrailBrush}"
+                                          StrokeThickness="{TemplateBinding ScaleWidth}"
+                                          StrokeStartLineCap="Flat"
+                                          StrokeEndLineCap="Triangle" />
+
+                                    <!-- Value -->
+                                    <StackPanel VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Center">
+                                        <TextBlock Name="PART_ValueText"
+                                                   Foreground="{TemplateBinding ValueBrush}"
+                                                   FontSize="20"
+                                                   FontWeight="SemiBold"
+                                                   Text="{TemplateBinding Value}"
+                                                   TextAlignment="Center"
+                                                   Margin="0 0 0 2" />
+                                    </StackPanel>
+                                </Grid>
+                            </Viewbox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
     <Grid Background="{StaticResource PageBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -16,5 +65,131 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <controls:PercentageRing IsInteractive="True"
+                                 TrailBrush="Black"
+                                 ScaleBrush="Transparent"
+                                 Grid.Row="0"
+                                 Grid.Column="0"
+                                 Margin="10">
+            <controls:PercentageRing.Resources>
+                <Style TargetType="controls:PercentageRing">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="controls:PercentageRing">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Viewbox>
+                                        <Grid x:Name="PART_Container"
+                                              Height="200"
+                                              Width="200"
+                                              Background="Transparent">
+
+                                            <!-- Scale -->
+                                            <Path Name="PART_Scale"
+                                                  Stroke="{TemplateBinding ScaleBrush}"
+                                                  StrokeThickness="{TemplateBinding ScaleWidth}"
+                                                  StrokeStartLineCap="Flat"
+                                                  StrokeEndLineCap="Flat" />
+
+                                            <!-- Trail -->
+                                            <Path Name="PART_Trail"
+                                                  Stroke="{TemplateBinding TrailBrush}"
+                                                  StrokeThickness="{TemplateBinding ScaleWidth}"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round"
+                                                  StrokeDashArray="0 2"
+                                                  StrokeDashCap="Round" />
+
+                                            <!-- Value -->
+                                            <StackPanel VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center">
+                                                <TextBlock Name="PART_ValueText"
+                                                           Foreground="{TemplateBinding ValueBrush}"
+                                                           FontSize="40"
+                                                           FontWeight="SemiBold"
+                                                           Text="{TemplateBinding Value}"
+                                                           TextAlignment="Center"
+                                                           Margin="0" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Viewbox>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </controls:PercentageRing.Resources>
+        </controls:PercentageRing>
+        <Viewbox Grid.Row="0"
+                 Grid.Column="1"
+                 Margin="10">
+            <Grid>
+                <controls:PercentageRing Height="200"
+                                         Value="70"
+                                         ValueBrush="Transparent"
+                                         TrailBrush="Blue"
+                                         ScaleBrush="Transparent" />
+                <controls:PercentageRing Height="150"
+                                         Value="60"
+                                         ValueBrush="Transparent"
+                                         ScaleWidth="32.5"
+                                         TrailBrush="BlueViolet"
+                                         ScaleBrush="Transparent" />
+                <controls:PercentageRing Height="102"
+                                         ScaleWidth="50"
+                                         Value="70"
+                                         ValueBrush="Transparent"
+                                         ScaleBrush="Transparent"
+                                         TrailBrush="Indigo" />
+            </Grid>
+        </Viewbox>
+        <controls:PercentageRing Grid.Row="0"
+                                 Grid.Column="2"
+                                 MinAngle="240"
+                                 MaxAngle="360"
+                                 Value="50"
+                                 ValueBrush="Transparent"
+                                 TrailBrush="Green"
+                                 Style="{StaticResource Arrow}"
+                                 Margin="10" />
+        <controls:PercentageRing Grid.Row="0"
+                                 Grid.Column="2"
+                                 MinAngle="120"
+                                 MaxAngle="240"
+                                 Value="100"
+                                 ValueBrush="Transparent"
+                                 TrailBrush="Yellow"
+                                 Style="{StaticResource Arrow}"
+                                 Margin="10" />
+        <controls:PercentageRing Grid.Row="0"
+                                 Grid.Column="2"
+                                 MaxAngle="120"
+                                 Value="100"
+                                 ValueBrush="Transparent"
+                                 TrailBrush="Red"
+                                 Style="{StaticResource Arrow}"
+                                 Margin="10" />
+        <TextBlock Text="Progress Ring"
+                   HorizontalAlignment="Stretch"
+                   TextAlignment="Center"
+                   FontSize="18"
+                   Margin="12"
+                   Grid.Column="0"
+                   Grid.Row="1" />
+        <TextBlock Text="Nested"
+                   HorizontalAlignment="Stretch"
+                   TextAlignment="Center"
+                   FontSize="18"
+                   Margin="12"
+                   Grid.Column="1"
+                   Grid.Row="1" />
+        <TextBlock Text="Stacked"
+                   HorizontalAlignment="Stretch"
+                   TextAlignment="Center"
+                   FontSize="18"
+                   Margin="12"
+                   Grid.Column="2"
+                   Grid.Row="1" />
     </Grid>
 </Page>
