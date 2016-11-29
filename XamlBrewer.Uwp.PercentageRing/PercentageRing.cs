@@ -91,9 +91,9 @@ namespace XamlBrewer.Uwp.Controls
 
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
+        private const double Radius = 100;
         private const double Minimum = 0;
         private const double Maximum = 100;
-        private const double ScalePadding = 0;
 
         private double _normalizedMinAngle;
         private double _normalizedMaxAngle;
@@ -179,7 +179,7 @@ namespace XamlBrewer.Uwp.Controls
         }
 
         /// <summary>
-        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees. It's typically on the right hand side of the control. The proposed value range is from -180 (bottom) to 0° (top).
+        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees.
         /// </summary>
         public int MinAngle
         {
@@ -188,7 +188,7 @@ namespace XamlBrewer.Uwp.Controls
         }
 
         /// <summary>
-        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees. It 's typically on the left hand side of the control. The proposed value range is from 0° (top) to 180° (bottom).
+        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees.
         /// </summary>
         public int MaxAngle
         {
@@ -242,7 +242,7 @@ namespace XamlBrewer.Uwp.Controls
                     percentageRing.Value = percentageRing.RoundToMultiple(percentageRing.Value, percentageRing.StepSize);
                 }
 
-                var middleOfScale = 100 - ScalePadding - (percentageRing.ScaleWidth / 2);
+                var middleOfScale = Radius - (percentageRing.ScaleWidth / 2);
                 var valueText = percentageRing.GetTemplateChild(ValueTextPartName) as TextBlock;
                 percentageRing.ValueAngle = percentageRing.ValueToAngle(percentageRing.Value);
 
@@ -259,8 +259,8 @@ namespace XamlBrewer.Uwp.Controls
                             // Draw full circle.
                             var eg = new EllipseGeometry
                             {
-                                Center = new Point(100, 100),
-                                RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth / 2)
+                                Center = new Point(Radius, Radius),
+                                RadiusX = Radius - (percentageRing.ScaleWidth / 2)
                             };
 
                             eg.RadiusY = eg.RadiusX;
@@ -342,8 +342,8 @@ namespace XamlBrewer.Uwp.Controls
                     // Draw full circle.
                     var eg = new EllipseGeometry
                     {
-                        Center = new Point(100, 100),
-                        RadiusX = 100 - ScalePadding - (percentageRing.ScaleWidth / 2)
+                        Center = new Point(Radius, Radius),
+                        RadiusX = Radius - (percentageRing.ScaleWidth / 2)
                     };
 
                     eg.RadiusY = eg.RadiusX;
@@ -354,7 +354,7 @@ namespace XamlBrewer.Uwp.Controls
                     // Draw arc.
                     var pg = new PathGeometry();
                     var pf = new PathFigure { IsClosed = false };
-                    var middleOfScale = 100 - ScalePadding - (percentageRing.ScaleWidth / 2);
+                    var middleOfScale = Radius - (percentageRing.ScaleWidth / 2);
                     pf.StartPoint = percentageRing.ScalePoint(percentageRing.NormalizedMinAngle, middleOfScale);
                     var seg = new ArcSegment
                     {
@@ -432,7 +432,7 @@ namespace XamlBrewer.Uwp.Controls
 
         private Point ScalePoint(double angle, double middleOfScale)
         {
-            return new Point(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
+            return new Point(Radius + (Math.Sin(Degrees2Radians * angle) * middleOfScale), Radius - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
         }
 
         private double ValueToAngle(double value)
