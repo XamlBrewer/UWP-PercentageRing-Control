@@ -9,49 +9,16 @@
     <Page.Resources>
         <Style TargetType="controls:PercentageRing"
                x:Key="Flat">
-            <Setter Property="ScaleWidth" Value="60" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="controls:PercentageRing">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <Viewbox>
-                                <Grid x:Name="PART_Container"
-                                      Height="200"
-                                      Width="200"
-                                      Background="Transparent">
-
-                                    <!-- Scale -->
-                                    <Path Name="PART_Scale"
-                                          Stroke="{TemplateBinding ScaleBrush}"
-                                          StrokeThickness="{TemplateBinding ScaleWidth}"
-                                          StrokeStartLineCap="Flat"
-                                          StrokeEndLineCap="Flat" />
-
-                                    <!-- Trail -->
-                                    <Path Name="PART_Trail"
-                                          Stroke="{TemplateBinding TrailBrush}"
-                                          StrokeThickness="{TemplateBinding ScaleWidth}"
-                                          StrokeStartLineCap="Flat"
-                                          StrokeEndLineCap="Flat" />
-
-                                    <!-- Value -->
-                                    <StackPanel VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Center">
-                                        <TextBlock Name="PART_ValueText"
-                                                   Foreground="{TemplateBinding ValueBrush}"
-                                                   FontSize="20"
-                                                   FontWeight="SemiBold"
-                                                   Text="{TemplateBinding Value}"
-                                                   TextAlignment="Center" />
-                                    </StackPanel>
-                                </Grid>
-                            </Viewbox>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="ScaleWidth"
+                    Value="60" />
+            <Setter Property="ScaleStartCap"
+                    Value="Flat" />
+            <Setter Property="ScaleEndCap"
+                    Value="Flat" />
+            <Setter Property="TrailStartCap"
+                    Value="Flat" />
+            <Setter Property="TrailEndCap"
+                    Value="Flat" />
         </Style>
     </Page.Resources>
 
@@ -77,6 +44,7 @@
             <controls:PercentageRing.Resources>
                 <Style TargetType="controls:PercentageRing">
                     <Setter Property="Template">
+
                         <Setter.Value>
                             <ControlTemplate TargetType="controls:PercentageRing">
                                 <Border Background="{TemplateBinding Background}"
@@ -124,7 +92,7 @@
                 </Style>
             </controls:PercentageRing.Resources>
         </controls:PercentageRing>
-        
+
         <!-- Middle -->
         <Viewbox Grid.Row="0"
                  Grid.Column="1"
@@ -132,69 +100,28 @@
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="controls:PercentageRing">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="controls:PercentageRing">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}">
-                                        <Viewbox>
-                                            <Grid x:Name="PART_Container"
-                                                  Height="200"
-                                                  Width="200"
-                                                  Background="Transparent">
-
-                                                <!-- Scale -->
-                                                <Path Name="PART_Scale"
-                                                      Stroke="{TemplateBinding ScaleBrush}"
-                                                      StrokeThickness="{TemplateBinding ScaleWidth}"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeEndLineCap="Round" />
-
-                                                <!-- Trail -->
-                                                <Path Name="PART_Trail"
-                                                      Stroke="{TemplateBinding TrailBrush}"
-                                                      StrokeThickness="{TemplateBinding ScaleWidth}"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeEndLineCap="Round" />
-
-                                                <!-- Value -->
-                                                <StackPanel VerticalAlignment="Bottom"
-                                                            HorizontalAlignment="Center">
-                                                    <TextBlock Name="PART_ValueText"
-                                                               Foreground="{TemplateBinding ValueBrush}"
-                                                               FontSize="20"
-                                                               FontWeight="SemiBold"
-                                                               Text="{TemplateBinding Value}"
-                                                               TextAlignment="Center"
-                                                               Margin="0 0 0 2" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </Viewbox>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
+                        <Setter Property="ScaleEndCap"
+                                Value="Round" />
+                        <Setter Property="TrailEndCap"
+                                Value="Round" />
+                        <Setter Property="ValueBrush"
+                                Value="Transparent" />
+                        <Setter Property="ScaleBrush"
+                                Value="Transparent" />
                     </Style>
                 </Grid.Resources>
                 <controls:PercentageRing Height="200"
                                          Value="90"
-                                         ValueBrush="Transparent"
                                          TrailBrush="{StaticResource SplitViewBackgroundBrush}"
-                                         ScaleBrush="Transparent"
                                          IsInteractive="True" />
                 <controls:PercentageRing Height="150"
                                          Value="80"
-                                         ValueBrush="Transparent"
                                          ScaleWidth="32.5"
                                          TrailBrush="#AA6C39"
-                                         ScaleBrush="Transparent"
                                          IsInteractive="True" />
                 <controls:PercentageRing Height="102"
                                          ScaleWidth="50"
                                          Value="70"
-                                         ValueBrush="Transparent"
-                                         ScaleBrush="Transparent"
                                          TrailBrush="{StaticResource TitlebarBackgroundBrush}"
                                          IsInteractive="True" />
             </Grid>

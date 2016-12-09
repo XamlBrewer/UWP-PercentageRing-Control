@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -45,13 +46,37 @@ namespace XamlBrewer.Uwp.Controls
         /// Identifies the TrailBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty TrailBrushProperty =
-            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(PercentageRing), new PropertyMetadata(new SolidColorBrush(Colors.Orange)));
+            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(PercentageRing), new PropertyMetadata(new SolidColorBrush(Colors.Orange), OnValueChanged));
+
+        /// <summary>
+        /// Identifies the TrailStartCap dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TrailStartCapProperty =
+            DependencyProperty.Register(nameof(TrailStartCap), typeof(PenLineCap), typeof(PercentageRing), new PropertyMetadata(PenLineCap.Round, OnValueChanged));
+
+        /// <summary>
+        /// Identifies the TrailEndCap dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TrailEndCapProperty =
+            DependencyProperty.Register(nameof(TrailEndCap), typeof(PenLineCap), typeof(PercentageRing), new PropertyMetadata(PenLineCap.Triangle, OnValueChanged));
 
         /// <summary>
         /// Identifies the ScaleBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleBrushProperty =
-            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(PercentageRing), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
+            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(PercentageRing), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray), OnScaleChanged));
+
+        /// <summary>
+        /// Identifies the ScaleStartCap dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScaleStartCapProperty =
+            DependencyProperty.Register(nameof(ScaleStartCap), typeof(PenLineCap), typeof(PercentageRing), new PropertyMetadata(PenLineCap.Round, OnScaleChanged));
+
+        /// <summary>
+        /// Identifies the ScaleEndCap dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ScaleEndCapProperty =
+            DependencyProperty.Register(nameof(ScaleEndCap), typeof(PenLineCap), typeof(PercentageRing), new PropertyMetadata(PenLineCap.Triangle, OnScaleChanged));
 
         /// <summary>
         /// Identifies the ValueBrush dependency property.
@@ -152,12 +177,48 @@ namespace XamlBrewer.Uwp.Controls
         }
 
         /// <summary>
+        /// Gets or sets the StrokeStartCap for the Trail.
+        /// </summary>
+        public PenLineCap TrailStartCap
+        {
+            get { return (PenLineCap)GetValue(TrailStartCapProperty); }
+            set { SetValue(TrailStartCapProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the StrokeEndCap for the Trail.
+        /// </summary>
+        public PenLineCap TrailEndCap
+        {
+            get { return (PenLineCap)GetValue(TrailEndCapProperty); }
+            set { SetValue(TrailEndCapProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the scale brush.
         /// </summary>
         public Brush ScaleBrush
         {
             get { return (Brush)GetValue(ScaleBrushProperty); }
             set { SetValue(ScaleBrushProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the StrokeStartCap for the Scale.
+        /// </summary>
+        public PenLineCap ScaleStartCap
+        {
+            get { return (PenLineCap)GetValue(ScaleStartCapProperty); }
+            set { SetValue(ScaleStartCapProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the StrokeEndCap for the Scale.
+        /// </summary>
+        public PenLineCap ScaleEndCap
+        {
+            get { return (PenLineCap)GetValue(ScaleEndCapProperty); }
+            set { SetValue(ScaleEndCapProperty, value); }
         }
 
         /// <summary>
@@ -268,6 +329,9 @@ namespace XamlBrewer.Uwp.Controls
                         }
                         else
                         {
+                            trail.StrokeStartLineCap = percentageRing.TrailStartCap;
+                            trail.StrokeEndLineCap = percentageRing.TrailEndCap;
+
                             // Draw arc.
                             var pg = new PathGeometry();
                             var pf = new PathFigure
@@ -351,6 +415,9 @@ namespace XamlBrewer.Uwp.Controls
                 }
                 else
                 {
+                    scale.StrokeStartLineCap = percentageRing.ScaleStartCap;
+                    scale.StrokeEndLineCap = percentageRing.ScaleEndCap;
+
                     // Draw arc.
                     var pg = new PathGeometry();
                     var pf = new PathFigure { IsClosed = false };

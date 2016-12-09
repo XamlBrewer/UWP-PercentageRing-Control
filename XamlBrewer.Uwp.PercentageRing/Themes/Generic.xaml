@@ -19,15 +19,15 @@
                                 <Path Name="PART_Scale"
                                       Stroke="{TemplateBinding ScaleBrush}"
                                       StrokeThickness="{TemplateBinding ScaleWidth}"
-                                      StrokeStartLineCap="Round"
-                                      StrokeEndLineCap="Triangle" />
+                                      StrokeStartLineCap="{TemplateBinding ScaleStartCap}"
+                                      StrokeEndLineCap="{TemplateBinding ScaleEndCap}" />
 
                                 <!-- Trail -->
                                 <Path Name="PART_Trail"
                                       Stroke="{TemplateBinding TrailBrush}"
                                       StrokeThickness="{TemplateBinding ScaleWidth}"
-                                      StrokeStartLineCap="Round"
-                                      StrokeEndLineCap="Triangle" />
+                                      StrokeStartLineCap="{TemplateBinding TrailStartCap}"
+                                      StrokeEndLineCap="{TemplateBinding TrailStartCap}" />
 
                                 <!-- Value -->
                                 <StackPanel VerticalAlignment="Bottom"
