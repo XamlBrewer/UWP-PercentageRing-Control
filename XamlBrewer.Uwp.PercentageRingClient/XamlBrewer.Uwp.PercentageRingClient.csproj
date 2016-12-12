@@ -163,10 +163,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XamlBrewer.Uwp.PercentageRing\XamlBrewer.Uwp.PercentageRing.csproj">
-      <Project>{d8dc83b4-801e-49e9-b806-17487b334e2f}</Project>
-      <Name>XamlBrewer.Uwp.PercentageRing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XamlBrewer.Uwp.SquareOfSquaresControl\XamlBrewer.Uwp.SquareOfSquaresControl.csproj">
       <Project>{e8beb79f-b04c-44e4-92a3-def89d15980d}</Project>
       <Name>XamlBrewer.Uwp.SquareOfSquaresControl</Name>
