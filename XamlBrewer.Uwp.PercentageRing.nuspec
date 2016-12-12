@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>XamlBrewer.Uwp.PercentageRing</id>
+    <version>1.0.0.0</version>
+    <title>PercentageRing Control for UWP</title>
+    <authors>Diederik Krols</authors>
+    <owners>xamlbrewer</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/XamlBrewer/UWP-PercentageRing-Control</projectUrl>
+    <iconUrl>https://github.com/XamlBrewer/UWP-PercentageRing-Control/nuget.png</iconUrl>	
+    <description>A lightweight UWP XAML circular control to represent or select a value between 0 and 100.</description>
+    <copyright>© XAMLBrewer. All rights reserved.</copyright>
+	<tags>UWP Controls XAML Radial Ring Percentage</tags>
+    <dependencies>
+      <group targetFramework="uap10.0">
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Diagnostics.Tools" version="4.0.0" />
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.Runtime.Extensions" version="4.0.10" />
+        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
+        <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src=".\XamlBrewer.Uwp.PercentageRing\bin\Release\XamlBrewer.Uwp.PercentageRing.dll" target="lib\uap10.0" />
+    <file src=".\XamlBrewer.Uwp.PercentageRing\bin\Release\XamlBrewer.Uwp.PercentageRing.pdb" target="lib\uap10.0" />
+    <file src=".\XamlBrewer.Uwp.PercentageRing\bin\Release\XamlBrewer.Uwp.PercentageRing.pri" target="lib\uap10.0" />
+    <file src=".\XamlBrewer.Uwp.PercentageRing\bin\Release\XamlBrewer.Uwp.PercentageRing.xr.xml" target="lib\uap10.0\XamlBrewer.Uwp.PercentageRing" />
+    <file src=".\XamlBrewer.Uwp.PercentageRing\Themes\Generic.xaml" target="lib\uap10.0\XAMLBrewer.PercentageRing.UWP\Themes" />
+	<file src=".\XamlBrewer.Uwp.PercentageRing\bin\Release\Themes\Generic.xbf" target="lib\uap10.0\XAMLBrewer.PercentageRing.UWP\Themes" />
+  </files>
+</package>

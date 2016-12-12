@@ -1,5 +1,4 @@
 ﻿using System;
-using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;

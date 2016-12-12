@@ -241,3 +241,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /XamlBrewer.Uwp.SquareOfSquaresControl/comments.xml
+/nuget.exe
+/XamlBrewer.Uwp.PercentageRing/nuget.exe

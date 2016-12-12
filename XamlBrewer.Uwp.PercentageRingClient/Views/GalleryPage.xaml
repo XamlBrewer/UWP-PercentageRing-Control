@@ -44,7 +44,6 @@
             <controls:PercentageRing.Resources>
                 <Style TargetType="controls:PercentageRing">
                     <Setter Property="Template">
-
                         <Setter.Value>
                             <ControlTemplate TargetType="controls:PercentageRing">
                                 <Border Background="{TemplateBinding Background}"
