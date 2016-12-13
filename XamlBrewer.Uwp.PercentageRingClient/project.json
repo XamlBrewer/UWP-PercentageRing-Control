@@ -1,7 +1,8 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
-    "XamlBrewer.Uwp.PercentageRing": "1.0.0"
+    "XamlBrewer.Uwp.PercentageRing": "1.0.0",
+    "XamlBrewer.Uwp.SquareOfSquares": "1.0.0"
   },
   "frameworks": {
     "uap10.0": {}

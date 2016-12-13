@@ -162,12 +162,6 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XamlBrewer.Uwp.SquareOfSquaresControl\XamlBrewer.Uwp.SquareOfSquaresControl.csproj">
-      <Project>{e8beb79f-b04c-44e4-92a3-def89d15980d}</Project>
-      <Name>XamlBrewer.Uwp.SquareOfSquaresControl</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

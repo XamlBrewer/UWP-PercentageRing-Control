@@ -8,7 +8,7 @@
     <owners>xamlbrewer</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectUrl>https://github.com/XamlBrewer/UWP-PercentageRing-Control</projectUrl>
-    <iconUrl>https://github.com/XamlBrewer/UWP-PercentageRing-Control/blob/master/nuget.png</iconUrl>	
+    <iconUrl>https://github.com/XamlBrewer/UWP-PercentageRing-Control/blob/master/nuget.png?raw=true</iconUrl>	
     <description>A lightweight UWP XAML circular control to represent or select a value between 0 and 100.</description>
     <copyright>© XAMLBrewer. All rights reserved.</copyright>
 	<tags>UWP Controls XAML Radial Ring Percentage</tags>
